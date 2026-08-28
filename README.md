@@ -14,5 +14,7 @@ what's happening under the hood. Closely following Sebastian Raschka's book
 - Built a vocabulary 4,690 tokens down to 1,130 unique IDs
 - wrote and understood how an encoder works by turning text into tokenid
 - and decoder which turns tokenid back to text tokens and tested them
-## Up next
-Self-attention. Then figuring out how to make it not painfully slow.
+- My tokenizer breaks on words that are out of its vocabulary.
+- Started using tiktoken GPT-2's byte pair encoding tokenizer
+- understood how it works by breaking unknown words into smaller known pieces instead of crashing.
+
