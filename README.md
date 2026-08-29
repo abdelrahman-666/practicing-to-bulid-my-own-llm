@@ -22,7 +22,7 @@ what's happening under the hood. Closely following Sebastian Raschka's book
 - ## Data sampling and batching
 * learned that there is a limit to the amount of tokens that can be put into the model beacuse the model expects fixed size input
 * you have to chop it into fixed size chunks and thats where i used pytorch for the first time
-* used `torch.tensor()` to convert my token ID lists into PyTorch tensors since plain list cant be run through the model math
+* used torch.tensor() to convert my token ID lists into PyTorch tensors which is a different type of list since plain list cant be run through the model math
 * the target for each chunk is just the same chunk shifted forward by 1 token thats how it learns to predict the next word
 * built GPTDatasetV1 as a pytorch Dataset so it can plug into pytorch's training tools
 * max_length controls how big each window is, and stride controls how far the window's starting point moves before grabbing the next one.
@@ -31,3 +31,18 @@ what's happening under the hood. Closely following Sebastian Raschka's book
 * wrote create_dataloader_v1 which uses pytorch's DataLoader to handle batching and shuffling for me
 * batching is how many windows (chunks) get grouped together and fed to the model in one go
 * tested it with small numbers (max_length=4, stride=1 vs stride=4) just to see the shapes and understand it before using real values
+  ## Creating token embeddings
+ * learned that token IDs are just random labels the model cant do 
+  real math with them since the numbers dont mean anything (id 133 isnt 
+  "less" than id 5000)
+ * so each token id gets turned into a vector of numbers instead called an 
+  embedding this is something the model can actually learn from
+ * built an embedding layer with torch.nn.Embedding(vocab_size, output_dim), 
+  its basically just a lookup table
+ * vocab_size Total number of unique words in our dictionary this dictates the number of rows
+ * output_dim The amount of numbers used to represent one single word it dictates the number of columns
+ * the table starts with random numbers but manual_seed keeps those numbers exactly the same for every test run.
+ * calling the embedding layer on a token id just grabs that row, no real 
+  math just a lookup
+ * did the same for the list of tokenids it only grabs the rows matching those ids and lines them up in the same order the ids appear in the list
+ * learned that during training the model constantly updates the numbers for each word the ones that show up in similar sentences end up with similar numbers that's how it learns which words belong together 
