@@ -45,4 +45,10 @@ what's happening under the hood. Closely following Sebastian Raschka's book
  * calling the embedding layer on a token id just grabs that row, no real 
   math just a lookup
  * did the same for the list of tokenids it only grabs the rows matching those ids and lines them up in the same order the ids appear in the list
- * learned that during training the model constantly updates the numbers for each word the ones that show up in similar sentences end up with similar numbers that's how it learns which words belong together 
+ * learned that during training the model constantly updates the numbers for each word the ones that show up in similar sentences end up with similar numbers that's how it learns which words belong together
+ ## Encoding word positions
+ * if the same word show up twice in a sentence they get the exact same vector so the model dosent know order and order completely changes meaning of a word
+ * the fix is positional embeddings we create a separate embedding matrix that looks up by position (0, 1, 2, 3...)
+ * now we add the token embedding and the position embedding and the input embedding will look different depending on where the word is located
+ * token_embedding + positional_embedding = input_embedding
+ * now even if the same word appears twice it ends up with different final vectors because the position part is different
